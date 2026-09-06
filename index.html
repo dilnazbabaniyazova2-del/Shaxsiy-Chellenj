@@ -1,0 +1,2837 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shaxsiy Challenge</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(255,255,255,.5) 1px,
+          transparent 2px
+        ),
+        radial-gradient(
+          circle at 80% 70%,
+          rgba(255,255,255,.4) 1px,
+          transparent 2px
+        ),
+        #d8d0c2;
+
+      background-size: 28px 28px;
+
+      color: #403b35;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    .login-page {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+
+      background: rgba(255,255,255,.9);
+
+      padding: 40px;
+
+      border-radius: 25px;
+
+      box-shadow:
+        0 15px 50px rgba(0,0,0,.15);
+
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 800;
+
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #777;
+
+      margin-bottom: 30px;
+
+      line-height: 1.5;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+
+      padding: 15px;
+
+      border:
+        1px solid #d2cbc1;
+
+      border-radius: 13px;
+
+      outline: none;
+
+      background: white;
+
+      font-size: 16px;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #756b5e;
+    }
+
+    textarea {
+      resize: vertical;
+
+      min-height: 100px;
+    }
+
+    .main-btn {
+      width: 100%;
+
+      padding: 15px;
+
+      border-radius: 13px;
+
+      background: #756b5e;
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      margin-top: 15px;
+
+      transition: .2s;
+    }
+
+    .main-btn:hover {
+      background: #5f574d;
+
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    .app {
+      display: none;
+
+      min-height: 100vh;
+    }
+
+    .header {
+      height: 75px;
+
+      background: rgba(255,255,255,.9);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 35px;
+
+      box-shadow:
+        0 3px 15px rgba(0,0,0,.08);
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 10;
+    }
+
+    .brand {
+      font-size: 22px;
+
+      font-weight: 800;
+    }
+
+    .user-name {
+      background: #756b5e;
+
+      color: white;
+
+      padding: 10px 18px;
+
+      border-radius: 30px;
+    }
+
+    .layout {
+      display: flex;
+
+      min-height:
+        calc(100vh - 75px);
+    }
+
+    .sidebar {
+      width: 260px;
+
+      background:
+        rgba(255,255,255,.72);
+
+      padding: 25px 15px;
+    }
+
+    .menu-btn {
+      width: 100%;
+
+      text-align: left;
+
+      padding: 15px;
+
+      border-radius: 12px;
+
+      background: transparent;
+
+      color: #4c463f;
+
+      font-size: 15px;
+
+      margin-bottom: 7px;
+
+      transition: .2s;
+    }
+
+    .menu-btn:hover,
+    .menu-btn.active {
+      background: #756b5e;
+
+      color: white;
+    }
+
+    .content {
+      flex: 1;
+
+      padding: 35px;
+
+      max-width: 1200px;
+
+      margin: auto;
+
+      width: 100%;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 30px;
+
+      margin-bottom: 25px;
+    }
+
+    /* =========================
+       ADD CHALLENGE
+    ========================= */
+
+    .add-card {
+      background:
+        rgba(255,255,255,.9);
+
+      border-radius: 20px;
+
+      padding: 25px;
+
+      margin-bottom: 30px;
+
+      box-shadow:
+        0 7px 25px rgba(0,0,0,.08);
+    }
+
+    .add-button {
+      width: 100%;
+
+      padding: 25px;
+
+      background: #756b5e;
+
+      color: white;
+
+      font-size: 20px;
+
+      border-radius: 17px;
+
+      font-weight: bold;
+
+      transition: .2s;
+    }
+
+    .add-button:hover {
+      background: #5f574d;
+    }
+
+    .form {
+      display: none;
+
+      margin-top: 20px;
+    }
+
+    .form.show {
+      display: block;
+    }
+
+    .form label {
+      display: block;
+
+      margin:
+        15px 0 7px;
+
+      font-weight: bold;
+    }
+
+    /* =========================
+       CHALLENGE CARDS
+    ========================= */
+
+    .challenge-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(280px, 1fr)
+        );
+
+      gap: 20px;
+    }
+
+    .challenge {
+      background:
+        rgba(255,255,255,.93);
+
+      border-radius: 20px;
+
+      padding: 22px;
+
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+
+      transition: .2s;
+    }
+
+    .challenge:hover {
+      transform:
+        translateY(-3px);
+    }
+
+    .challenge h3 {
+      font-size: 21px;
+
+      margin-bottom: 12px;
+    }
+
+    .challenge-info {
+      color: #777;
+
+      margin-bottom: 15px;
+    }
+
+    .progress {
+      height: 9px;
+
+      background: #e4dfd7;
+
+      border-radius: 20px;
+
+      overflow: hidden;
+
+      margin: 15px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+
+      background: #756b5e;
+
+      width: 0%;
+
+      transition:
+        width .4s ease;
+    }
+
+    .today-btn {
+      width: 100%;
+
+      padding: 12px;
+
+      border-radius: 11px;
+
+      background: #756b5e;
+
+      color: white;
+
+      margin-top: 8px;
+    }
+
+    .today-btn:hover {
+      background: #5f574d;
+    }
+
+    .today-btn.done {
+      background: #8b9a80;
+    }
+
+    .empty {
+      background:
+        rgba(255,255,255,.7);
+
+      padding: 40px;
+
+      border-radius: 20px;
+
+      text-align: center;
+
+      color: #777;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,.45);
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+      z-index: 100;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+
+      max-width: 650px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      background: white;
+
+      padding: 30px;
+
+      border-radius: 22px;
+    }
+
+    .modal-close {
+      float: right;
+
+      font-size: 25px;
+
+      background: none;
+
+      padding: 5px 10px;
+    }
+
+    .modal-close:hover {
+      color: #756b5e;
+    }
+
+    .day-list {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(55px,1fr)
+        );
+
+      gap: 8px;
+
+      margin: 20px 0;
+    }
+
+    .day {
+      padding: 12px 5px;
+
+      background: #eee9e2;
+
+      border-radius: 9px;
+
+      text-align: center;
+    }
+
+    .day.completed {
+      background: #8b9a80;
+
+      color: white;
+    }
+
+    .day.today {
+      border:
+        2px solid #756b5e;
+    }
+
+    .comment {
+      background: #f5f1eb;
+
+      padding: 13px;
+
+      border-radius: 10px;
+
+      margin-top: 10px;
+    }
+
+    .comment-date {
+      font-size: 11px;
+
+      color: #888;
+
+      margin-bottom: 5px;
+    }
+
+    .notification {
+      padding: 15px;
+
+      background: white;
+
+      border-radius: 15px;
+
+      margin-bottom: 10px;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,.06);
+    }
+
+    /* =========================
+       MOTIVATION
+    ========================= */
+
+    .motivation-box {
+      background:
+        linear-gradient(
+          135deg,
+          #756b5e,
+          #8b9a80
+        );
+
+      color: white;
+
+      padding: 25px;
+
+      border-radius: 20px;
+
+      text-align: center;
+
+      margin-bottom: 25px;
+
+      display: none;
+    }
+
+    .motivation-box.show {
+      display: block;
+
+      animation:
+        motivationShow .5s ease;
+    }
+
+    .motivation-box h2 {
+      margin-bottom: 10px;
+    }
+
+    .motivation-box p {
+      line-height: 1.5;
+
+      font-size: 17px;
+    }
+
+    @keyframes motivationShow {
+      from {
+        opacity: 0;
+        transform: scale(.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(160px,1fr)
+        );
+
+      gap: 15px;
+
+      margin-bottom: 30px;
+    }
+
+    .stat {
+      background:
+        rgba(255,255,255,.85);
+
+      border-radius: 18px;
+
+      padding: 20px;
+
+      text-align: center;
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.06);
+    }
+
+    .stat-number {
+      font-size: 30px;
+
+      font-weight: bold;
+
+      margin-bottom: 5px;
+    }
+
+    .stat-title {
+      color: #777;
+
+      font-size: 14px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width: 750px) {
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+
+        display: flex;
+
+        overflow-x: auto;
+
+        gap: 5px;
+
+        padding: 10px;
+      }
+
+      .menu-btn {
+        white-space: nowrap;
+
+        width: auto;
+
+        margin-bottom: 0;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .header {
+        padding: 0 15px;
+      }
+
+      .brand {
+        font-size: 17px;
+      }
+
+      .user-name {
+        padding:
+          8px 12px;
+
+        font-size: 13px;
+      }
+
+      .section-title {
+        font-size: 25px;
+      }
+    }
+  </style>
+  <!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDBXQpHAO6asqDaTEr2wfrfOsvii4HOy_c",
+    authDomain: "shaxsiychellenj.firebaseapp.com",
+    projectId: "shaxsiychellenj",
+    storageBucket: "shaxsiychellenj.firebasestorage.app",
+    messagingSenderId: "75624825437",
+    appId: "1:75624825437:web:986a88344ba9be47ce03b4",
+    measurementId: "G-7FPE7BZXT5"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+</script>
+
+<meta name="google-site-verification" content="0c384Rbyy1CI44J7-kTruNIdmEO3yAI2E01CIA43ae8" />
+
+
+</head>
+
+<body>
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div class="login-page" id="loginPage">
+
+  <div class="login-box">
+
+    <div class="logo">
+      🌿 Shaxsiy Challenge
+    </div>
+
+    <div class="subtitle">
+      Har kuni o'zingizning yaxshiroq
+      versiyangizga bir qadam.
+    </div>
+
+    <input
+      id="nameInput"
+      type="text"
+      placeholder="Ismingizni kiriting"
+      maxlength="40"
+    >
+
+    <button
+      class="main-btn"
+      onclick="login()"
+    >
+      Kirish
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<div class="app" id="app">
+
+  <header class="header">
+
+    <div class="brand">
+      🌿 Shaxsiy Challenge
+    </div>
+
+    <div
+      class="user-name"
+      id="userName"
+    ></div>
+
+  </header>
+
+
+  <div class="layout">
+
+    <!-- MENU -->
+
+    <aside class="sidebar">
+
+      <button
+        class="menu-btn active"
+        onclick="showSection('home',this)"
+      >
+        🏠 Asosiy sahifa
+      </button>
+
+      <button
+        class="menu-btn"
+        onclick="showSection('current',this)"
+      >
+        🔥 Hozirgi challenge'larim
+      </button>
+
+      <button
+        class="menu-btn"
+        onclick="showSection('completed',this)"
+      >
+        🏆 Tugatgan challenge'larim
+      </button>
+
+      <button
+        class="menu-btn"
+        onclick="showSection('feedback',this)"
+      >
+        💬 Fikr va taklif
+      </button>
+
+      <button
+        class="menu-btn"
+        onclick="showSection('notifications',this)"
+      >
+        🔔 Xabarnomalar
+      </button>
+
+      <button
+        class="menu-btn"
+        onclick="logout()"
+      >
+        🚪 Chiqish
+      </button>
+
+    </aside>
+
+
+    <main class="content">
+
+      <!-- MOTIVATION -->
+
+      <div
+        class="motivation-box"
+        id="motivationBox"
+      >
+
+        <h2>
+          🎉 Tabriklaymiz!
+        </h2>
+
+        <p id="motivationText"></p>
+
+      </div>
+
+
+      <!-- HOME -->
+
+      <section
+        class="section active"
+        id="home"
+      >
+
+        <h1 class="section-title">
+          Bugun nimani boshlaymiz?
+        </h1>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+          <div class="stat">
+
+            <div
+              class="stat-number"
+              id="totalChallenges"
+            >
+              0
+            </div>
+
+            <div class="stat-title">
+              Barcha challenge
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div
+              class="stat-number"
+              id="activeChallenges"
+            >
+              0
+            </div>
+
+            <div class="stat-title">
+              Hozirgi challenge
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div
+              class="stat-number"
+              id="finishedChallenges"
+            >
+              0
+            </div>
+
+            <div class="stat-title">
+              Tugatilgan
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ADD -->
+
+        <div class="add-card">
+
+          <button
+            class="add-button"
+            onclick="toggleForm()"
+          >
+            ＋ Yangi challenge qo'shish
+          </button>
+
+
+          <div
+            class="form"
+            id="challengeForm"
+          >
+
+            <label>
+              Challenge nomi
+            </label>
+
+            <input
+              id="challengeName"
+              type="text"
+              placeholder="Masalan: Erta turish"
+            >
+
+
+            <label>
+              Necha kun davom etadi?
+            </label>
+
+            <input
+              id="challengeDays"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Masalan: 30"
+            >
+
+
+            <label>
+              Izoh (ixtiyoriy)
+            </label>
+
+            <textarea
+              id="challengeDescription"
+              placeholder="Challenge haqida..."
+            ></textarea>
+
+
+            <button
+              class="main-btn"
+              onclick="createChallenge()"
+            >
+              Challenge'ni boshlash
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <h2 style="margin-bottom:20px">
+          Hozirgi challenge'lar
+        </h2>
+
+        <div
+          class="challenge-grid"
+          id="homeChallenges"
+        ></div>
+
+      </section>
+
+
+      <!-- CURRENT -->
+
+      <section
+        class="section"
+        id="current"
+      >
+
+        <h1 class="section-title">
+          🔥 Hozirgi challenge'larim
+        </h1>
+
+        <div
+          class="challenge-grid"
+          id="currentChallenges"
+        ></div>
+
+      </section>
+
+
+      <!-- COMPLETED -->
+
+      <section
+        class="section"
+        id="completed"
+      >
+
+        <h1 class="section-title">
+          🏆 Tugatgan challenge'larim
+        </h1>
+
+        <div
+          class="challenge-grid"
+          id="completedChallenges"
+        ></div>
+
+      </section>
+
+
+      <!-- FEEDBACK -->
+
+      <section
+        class="section"
+        id="feedback"
+      >
+
+        <h1 class="section-title">
+          💬 Fikr va taklif
+        </h1>
+
+
+        <div class="add-card">
+
+          <p style="margin-bottom:20px">
+            Saytni yanada yaxshi qilish uchun
+            fikringizni yozishingiz mumkin.
+          </p>
+
+          <textarea
+            id="feedbackText"
+            placeholder="Fikringiz yoki taklifingiz..."
+          ></textarea>
+
+          <button
+            class="main-btn"
+            onclick="sendFeedback()"
+          >
+            Yuborish
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- NOTIFICATIONS -->
+
+      <section
+        class="section"
+        id="notifications"
+      >
+
+        <h1 class="section-title">
+          🔔 Xabarnomalar
+        </h1>
+
+        <div
+          id="notificationList"
+        ></div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     CHALLENGE MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="challengeModal"
+>
+
+  <div class="modal-box">
+
+    <button
+      class="modal-close"
+      onclick="closeModal()"
+    >
+      ×
+    </button>
+
+    <h2 id="modalTitle"></h2>
+
+    <p
+      id="modalInfo"
+      style="
+        margin-top:10px;
+        color:#777;
+      "
+    ></p>
+
+
+    <p
+      id="modalDescription"
+      style="
+        margin-top:10px;
+        line-height:1.5;
+      "
+    ></p>
+
+
+    <div class="progress">
+
+      <div
+        class="progress-bar"
+        id="modalProgress"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="main-btn"
+      id="modalTodayButton"
+      onclick="completeToday()"
+    >
+      Bugun bajarildi ✓
+    </button>
+
+
+    <h3 style="margin-top:25px">
+      Kunlar
+    </h3>
+
+    <div
+      class="day-list"
+      id="dayList"
+    ></div>
+
+
+    <h3>
+      Izohlar
+    </h3>
+
+    <textarea
+      id="commentInput"
+      placeholder="Challenge haqida izoh yozing..."
+      style="margin-top:15px"
+    ></textarea>
+
+
+    <button
+      class="main-btn"
+      onclick="addComment()"
+    >
+      Izohni saqlash
+    </button>
+
+
+    <div id="comments"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   GLOBAL VARIABLES
+========================= */
+
+let currentUser = "";
+
+let selectedChallengeId = null;
+
+
+/* =========================
+   MOTIVATION MESSAGES
+========================= */
+
+const motivations = [
+
+  "Men buni bilardim! Barcha ish qo‘lingizdan keladi! OLGA-A-A! 🔥",
+
+  "Siz boshladingiz va oxirigacha yetib keldingiz. Bu — kuchli xarakter belgisi! 💪",
+
+  "Challenge tugadi! O‘zingizga bergan va’dangizni bajardingiz. Zo‘r! 🎉",
+
+  "Bugun siz kechagi o‘zingizdan kuchliroqsiz. To‘xtamang! 🚀",
+
+  "Mana shu natija tasodif emas. Siz uddaladingiz! Keyingi challenge’ga olg‘a! 🏆",
+
+  "O‘zingiz bilan faxrlansangiz arziydi. Boshlash oson, tugatish esa kuchlilarning ishi! 👏",
+
+  "Bir maqsad bajarildi. Endi o‘zingizning yanada kuchli versiyangizga bir qadam yaqin! 🌱",
+
+  "Sizda iroda borligini yana bir bor isbotladingiz. OLGA! 🔥",
+
+  "Bugungi g‘alaba — ertangi katta natijaning boshlanishi. Davom eting! ✨",
+
+  "Siz shunchaki challenge tugatmadingiz — o‘zingizga bergan so‘zingizda turdingiz. 💚",
+
+  "Qancha kun bo‘lmasin, oxirigacha yetdingiz. Bu haqiqiy natija! 🥇",
+
+  "Ajoyib! Siz reja qilmadingiz, siz AMAL qildingiz. Keyingi maqsad sari! 🚀"
+
+];
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+  const name =
+    document
+      .getElementById("nameInput")
+      .value
+      .trim();
+
+
+  if (!name) {
+
+    alert(
+      "Iltimos, ismingizni kiriting."
+    );
+
+    return;
+  }
+
+
+  currentUser = name;
+
+
+firebase.auth().signInAnonymously()
+  .then((userCredential) => {
+    const user = userCredential.user;
+
+    return firebase.firestore()
+      .collection("users")
+      .doc(user.uid)
+      .set({
+        name: currentUser,
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+  })
+  .then(() => {
+    localStorage.setItem("challenge_user", currentUser);
+    startApp();
+  })
+  .catch((error) => {
+    console.error("Firebase xatosi:", error);
+    alert("Firebase bilan ulanishda xatolik yuz berdi.");
+  });
+
+
+
+}
+
+
+/* =========================
+   START APP
+========================= */
+
+function startApp() {
+
+  currentUser =
+    localStorage.getItem(
+      "challenge_user"
+    );
+
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  document
+    .getElementById("loginPage")
+    .style.display = "none";
+
+
+  document
+    .getElementById("app")
+    .style.display = "block";
+
+
+  document
+    .getElementById("userName")
+    .textContent =
+      "👤 " + currentUser;
+
+
+  renderAll();
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+  localStorage.removeItem(
+    "challenge_user"
+  );
+
+  location.reload();
+
+}
+
+
+/* =========================
+   DATA
+========================= */
+
+function getChallenges() {
+
+  return JSON.parse(
+
+    localStorage.getItem(
+      "challenges_" + currentUser
+    ) || "[]"
+
+  );
+
+}
+
+
+function saveChallenges(data) {
+
+  localStorage.setItem(
+
+    "challenges_" + currentUser,
+
+    JSON.stringify(data)
+
+  );
+
+}
+
+
+/* =========================
+   ADD FORM
+========================= */
+
+function toggleForm() {
+
+  document
+    .getElementById("challengeForm")
+    .classList
+    .toggle("show");
+
+}
+
+
+/* =========================
+   CREATE CHALLENGE
+========================= */
+
+function createChallenge() {
+
+  const name =
+    document
+      .getElementById("challengeName")
+      .value
+      .trim();
+
+
+  const days =
+    parseInt(
+      document
+        .getElementById("challengeDays")
+        .value
+    );
+
+
+  const description =
+    document
+      .getElementById(
+        "challengeDescription"
+      )
+      .value
+      .trim();
+
+
+  if (!name) {
+
+    alert(
+      "Challenge nomini kiriting."
+    );
+
+    return;
+  }
+
+
+  if (
+    !Number.isInteger(days) ||
+    days < 1
+  ) {
+
+    alert(
+      "Kunlar sonini to'g'ri kiriting."
+    );
+
+    return;
+  }
+
+
+  const challenge = {
+
+    id: Date.now(),
+
+    name: name,
+
+    days: days,
+
+    description: description,
+
+    startDate:
+      new Date().toISOString(),
+
+    completedDates: [],
+
+    comments: [],
+
+    completed: false
+
+  };
+
+
+  const challenges =
+    getChallenges();
+
+
+  challenges.push(
+    challenge
+  );
+
+
+  saveChallenges(
+    challenges
+  );
+
+
+  addNotification(
+
+    currentUser +
+    " yangi challenge boshladi: " +
+    name
+
+  );
+
+
+  document
+    .getElementById(
+      "challengeName"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "challengeDays"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "challengeDescription"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "challengeForm"
+    )
+    .classList
+    .remove("show");
+
+
+  renderAll();
+
+
+  alert(
+    "Challenge muvaffaqiyatli boshlandi! 🔥"
+  );
+
+}
+
+
+/* =========================
+   RENDER ALL
+========================= */
+
+function renderAll() {
+
+  const challenges =
+    getChallenges();
+
+
+  const active =
+    challenges.filter(
+      c => !c.completed
+    );
+
+
+  const completed =
+    challenges.filter(
+      c => c.completed
+    );
+
+
+  renderList(
+    active,
+    "homeChallenges"
+  );
+
+
+  renderList(
+    active,
+    "currentChallenges"
+  );
+
+
+  renderList(
+    completed,
+    "completedChallenges"
+  );
+
+
+  renderNotifications();
+
+
+  document
+    .getElementById(
+      "totalChallenges"
+    )
+    .textContent =
+      challenges.length;
+
+
+  document
+    .getElementById(
+      "activeChallenges"
+    )
+    .textContent =
+      active.length;
+
+
+  document
+    .getElementById(
+      "finishedChallenges"
+    )
+    .textContent =
+      completed.length;
+
+}
+
+
+/* =========================
+   RENDER LIST
+========================= */
+
+function renderList(
+  list,
+  elementId
+) {
+
+  const container =
+    document.getElementById(
+      elementId
+    );
+
+
+  if (!list.length) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Hozircha bu yerda
+        challenge yo'q 🌿
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    list
+      .map(
+        challengeCard
+      )
+      .join("");
+
+}
+
+
+/* =========================
+   CHALLENGE CARD
+========================= */
+
+function challengeCard(c) {
+
+  const percent =
+    Math.min(
+
+      100,
+
+      Math.round(
+
+        (
+          c.completedDates.length /
+          c.days
+        ) * 100
+
+      )
+
+    );
+
+
+  return `
+
+    <div class="challenge">
+
+      <h3>
+        ${escapeHtml(c.name)}
+      </h3>
+
+
+      <div class="challenge-info">
+
+        ${c.completedDates.length}
+        /
+        ${c.days}
+        kun
+
+      </div>
+
+
+      ${
+        c.description
+          ? `
+            <div
+              style="
+                color:#777;
+                margin-bottom:10px;
+                line-height:1.4;
+              "
+            >
+              ${escapeHtml(
+                c.description
+              )}
+            </div>
+          `
+          : ""
+      }
+
+
+      <div class="progress">
+
+        <div
+          class="progress-bar"
+          style="
+            width:${percent}%;
+          "
+        ></div>
+
+      </div>
+
+
+      <div
+        style="
+          font-size:13px;
+          color:#888;
+        "
+      >
+        ${percent}% bajarildi
+      </div>
+
+
+      <button
+        class="today-btn"
+        onclick="
+          openChallenge(${c.id})
+        "
+      >
+        Challenge'ni ochish
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   OPEN CHALLENGE
+========================= */
+
+function openChallenge(id) {
+
+  selectedChallengeId =
+    id;
+
+
+  const challenge =
+    getChallenges()
+      .find(
+        c => c.id === id
+      );
+
+
+  if (!challenge) {
+    return;
+  }
+
+
+  document
+    .getElementById(
+      "modalTitle"
+    )
+    .textContent =
+      challenge.name;
+
+
+  document
+    .getElementById(
+      "modalInfo"
+    )
+    .textContent =
+
+      `${challenge.completedDates.length}
+       /
+       ${challenge.days}
+       kun bajarildi`;
+
+
+  document
+    .getElementById(
+      "modalDescription"
+    )
+    .textContent =
+      challenge.description ||
+      "Challenge uchun izoh berilmagan.";
+
+
+  const percent =
+    Math.min(
+
+      100,
+
+      Math.round(
+
+        (
+          challenge.completedDates.length /
+          challenge.days
+        ) * 100
+
+      )
+
+    );
+
+
+  document
+    .getElementById(
+      "modalProgress"
+    )
+    .style.width =
+      percent + "%";
+
+
+  const today =
+    getToday();
+
+
+  const doneToday =
+    challenge.completedDates
+      .includes(today);
+
+
+  const btn =
+    document
+      .getElementById(
+        "modalTodayButton"
+      );
+
+
+  btn.className =
+    doneToday
+      ? "today-btn done"
+      : "today-btn";
+
+
+  btn.textContent =
+    doneToday
+      ? "✓ Bugun bajarilgan"
+      : "Bugun bajarildi ✓";
+
+
+  renderDays(
+    challenge
+  );
+
+
+  renderComments(
+    challenge
+  );
+
+
+  document
+    .getElementById(
+      "challengeModal"
+    )
+    .classList
+    .add("show");
+
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeModal() {
+
+  document
+    .getElementById(
+      "challengeModal"
+    )
+    .classList
+    .remove("show");
+
+
+  selectedChallengeId =
+    null;
+
+}
+
+
+/* =========================
+   TODAY
+========================= */
+
+function getToday() {
+
+  const now =
+    new Date();
+
+
+  const year =
+    now.getFullYear();
+
+
+  const month =
+    String(
+      now.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const day =
+    String(
+      now.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+/* =========================
+   ADD DAYS
+========================= */
+
+function addDays(
+  date,
+  amount
+) {
+
+  const result =
+    new Date(date);
+
+
+  result.setDate(
+    result.getDate() + amount
+  );
+
+
+  return result;
+
+}
+
+
+/* =========================
+   DATE KEY
+========================= */
+
+function dateKey(date) {
+
+  const year =
+    date.getFullYear();
+
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+/* =========================
+   RENDER DAYS
+========================= */
+
+function renderDays(
+  challenge
+) {
+
+  const container =
+    document.getElementById(
+      "dayList"
+    );
+
+
+  const start =
+    new Date(
+      challenge.startDate
+    );
+
+
+  let html = "";
+
+
+  /*
+    Juda katta challenge
+    bo'lsa brauzerga minglab
+    element chiqarib yubormaslik
+    uchun limit qo'yamiz.
+  */
+
+  const maxDisplay =
+    Math.min(
+      challenge.days,
+      1000
+    );
+
+
+  for (
+    let i = 0;
+    i < maxDisplay;
+    i++
+  ) {
+
+    const date =
+      addDays(
+        start,
+        i
+      );
+
+
+    const key =
+      dateKey(date);
+
+
+    const completed =
+      challenge.completedDates
+        .includes(key);
+
+
+    const today =
+      key === getToday();
+
+
+    html += `
+
+      <div
+        class="
+          day
+          ${completed ? "completed" : ""}
+          ${today ? "today" : ""}
+        "
+        title="${key}"
+      >
+
+        ${i + 1}
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (
+    challenge.days > 1000
+  ) {
+
+    html += `
+
+      <div
+        style="
+          grid-column:1/-1;
+          text-align:center;
+          color:#888;
+          padding:15px;
+        "
+      >
+
+        Birinchi 1000 kun ko'rsatildi.
+        Challenge davomiyligi:
+        ${challenge.days} kun.
+
+      </div>
+
+    `;
+
+  }
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   COMPLETE TODAY
+========================= */
+
+function completeToday() {
+
+  if (
+    !selectedChallengeId
+  ) {
+    return;
+  }
+
+
+  const challenges =
+    getChallenges();
+
+
+  const challenge =
+    challenges.find(
+      c =>
+        c.id ===
+        selectedChallengeId
+    );
+
+
+  if (!challenge) {
+    return;
+  }
+
+
+  const today =
+    getToday();
+
+
+  if (
+    challenge.completedDates
+      .includes(today)
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+    Challenge boshlanishidan
+    oldingi kunni belgilashga
+    ruxsat bermaymiz.
+  */
+
+  const start =
+    new Date(
+      challenge.startDate
+    );
+
+
+  const todayDate =
+    new Date();
+
+
+  start.setHours(
+    0,0,0,0
+  );
+
+  todayDate.setHours(
+    0,0,0,0
+  );
+
+
+  const difference =
+    Math.floor(
+
+      (
+        todayDate -
+        start
+      ) /
+      (
+        1000 *
+        60 *
+        60 *
+        24
+      )
+
+    );
+
+
+  if (
+    difference < 0
+  ) {
+
+    alert(
+      "Challenge hali boshlanmagan."
+    );
+
+    return;
+  }
+
+
+  if (
+    difference >=
+    challenge.days
+  ) {
+
+    alert(
+      "Challenge muddati tugagan."
+    );
+
+    return;
+  }
+
+
+  challenge.completedDates
+    .push(today);
+
+
+  /*
+    Sanalarni tartiblab
+    qo'yamiz.
+  */
+
+  challenge.completedDates
+    .sort();
+
+
+  /*
+    Agar barcha kunlar
+    bajarilgan bo'lsa,
+    challenge tugadi.
+  */
+
+  if (
+    challenge.completedDates
+      .length >=
+    challenge.days
+  ) {
+
+    challenge.completed = true;
+
+
+    const message =
+      getRandomMotivation();
+
+
+    showMotivation(
+      message
+    );
+
+
+    addNotification(
+
+      currentUser +
+      " challenge'ni tugatdi: " +
+      challenge.name
+
+    );
+
+  } else {
+
+    addNotification(
+
+      currentUser +
+      " bugungi kunni bajardi: " +
+      challenge.name
+
+    );
+
+  }
+
+
+  saveChallenges(
+    challenges
+  );
+
+
+  openChallenge(
+    selectedChallengeId
+  );
+
+
+  renderAll();
+
+}
+
+
+/* =========================
+   RANDOM MOTIVATION
+========================= */
+
+function getRandomMotivation() {
+
+  const index =
+    Math.floor(
+
+      Math.random() *
+      motivations.length
+
+    );
+
+
+  return motivations[index];
+
+}
+
+
+/* =========================
+   SHOW MOTIVATION
+========================= */
+
+function showMotivation(
+  message
+) {
+
+  const box =
+    document.getElementById(
+      "motivationBox"
+    );
+
+
+  const text =
+    document.getElementById(
+      "motivationText"
+    );
+
+
+  text.textContent =
+    message;
+
+
+  box.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    () => {
+
+      box.classList.remove(
+        "show"
+      );
+
+    },
+    12000
+  );
+
+}
+
+
+/* =========================
+   COMMENTS
+========================= */
+
+function addComment() {
+
+  if (
+    !selectedChallengeId
+  ) {
+    return;
+  }
+
+
+  const text =
+    document
+      .getElementById(
+        "commentInput"
+      )
+      .value
+      .trim();
+
+
+  if (!text) {
+
+    alert(
+      "Izoh yozing."
+    );
+
+    return;
+  }
+
+
+  const challenges =
+    getChallenges();
+
+
+  const challenge =
+    challenges.find(
+      c =>
+        c.id ===
+        selectedChallengeId
+    );
+
+
+  if (!challenge) {
+    return;
+  }
+
+
+  challenge.comments.push({
+
+    text: text,
+
+    date:
+      new Date()
+        .toLocaleString(
+          "uz-UZ"
+        )
+
+  });
+
+
+  saveChallenges(
+    challenges
+  );
+
+
+  document
+    .getElementById(
+      "commentInput"
+    )
+    .value = "";
+
+
+  renderComments(
+    challenge
+  );
+
+
+  addNotification(
+
+    currentUser +
+    " challenge'ga izoh yozdi: " +
+    challenge.name
+
+  );
+
+}
+
+
+/* =========================
+   RENDER COMMENTS
+========================= */
+
+function renderComments(
+  challenge
+) {
+
+  const container =
+    document.getElementById(
+      "comments"
+    );
+
+
+  if (
+    !challenge.comments ||
+    !challenge.comments.length
+  ) {
+
+    container.innerHTML = `
+
+      <p
+        style="
+          margin-top:20px;
+          color:#999;
+        "
+      >
+        Hozircha izoh yo'q.
+      </p>
+
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML =
+
+    challenge.comments
+      .slice()
+      .reverse()
+      .map(
+        c => `
+
+          <div class="comment">
+
+            <div
+              class="comment-date"
+            >
+              ${escapeHtml(
+                c.date
+              )}
+            </div>
+
+            ${escapeHtml(
+              c.text
+            )}
+
+          </div>
+
+        `
+      )
+      .join("");
+
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+function sendFeedback() {
+
+  const text =
+    document
+      .getElementById(
+        "feedbackText"
+      )
+      .value
+      .trim();
+
+
+  if (!text) {
+
+    alert(
+      "Fikringizni yozing."
+    );
+
+    return;
+  }
+
+
+  addNotification(
+
+    currentUser +
+    " fikr/taklif yubordi: " +
+    text
+
+  );
+
+
+  document
+    .getElementById(
+      "feedbackText"
+    )
+    .value = "";
+
+
+  alert(
+    "Fikringiz yuborildi. Rahmat! ❤️"
+  );
+
+}
+
+
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+function addNotification(
+  text
+) {
+
+  const list =
+    JSON.parse(
+
+      localStorage.getItem(
+        "admin_notifications"
+      ) || "[]"
+
+    );
+
+
+  list.unshift({
+
+    text: text,
+
+    date:
+      new Date()
+        .toLocaleString(
+          "uz-UZ"
+        )
+
+  });
+
+
+  /*
+    Juda ko'p xabarnoma
+    yig'ilib qolmasligi uchun
+    oxirgi 200 tasini saqlaymiz.
+  */
+
+  const limited =
+    list.slice(
+      0,
+      200
+    );
+
+
+  localStorage.setItem(
+
+    "admin_notifications",
+
+    JSON.stringify(
+      limited
+    )
+
+  );
+
+
+  renderNotifications();
+
+}
+
+
+/* =========================
+   RENDER NOTIFICATIONS
+========================= */
+
+function renderNotifications() {
+
+  const list =
+    JSON.parse(
+
+      localStorage.getItem(
+        "admin_notifications"
+      ) || "[]"
+
+    );
+
+
+  const container =
+    document.getElementById(
+      "notificationList"
+    );
+
+
+  if (!list.length) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Hozircha xabarnoma yo'q.
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML =
+
+    list
+      .map(
+        n => `
+
+          <div
+            class="notification"
+          >
+
+            <b>
+              🔔 Xabarnoma
+            </b>
+
+            <p
+              style="
+                margin-top:7px;
+              "
+            >
+              ${escapeHtml(
+                n.text
+              )}
+            </p>
+
+            <small
+              style="
+                color:#888;
+              "
+            >
+              ${escapeHtml(
+                n.date
+              )}
+            </small>
+
+          </div>
+
+        `
+      )
+      .join("");
+
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+function showSection(
+  id,
+  button
+) {
+
+  document
+    .querySelectorAll(
+      ".section"
+    )
+    .forEach(
+      s =>
+        s.classList.remove(
+          "active"
+        )
+    );
+
+
+  const section =
+    document.getElementById(
+      id
+    );
+
+
+  if (section) {
+
+    section.classList.add(
+      "active"
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".menu-btn"
+    )
+    .forEach(
+      b =>
+        b.classList.remove(
+          "active"
+        )
+    );
+
+
+  if (button) {
+
+    button.classList.add(
+      "active"
+    );
+
+  }
+
+
+  renderAll();
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHtml(
+  text
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+document
+  .getElementById(
+    "nameInput"
+  )
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key ===
+        "Enter"
+      ) {
+
+        login();
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   START
+========================= */
+
+window.onload =
+  function() {
+
+    const saved =
+      localStorage.getItem(
+        "challenge_user"
+      );
+
+
+    if (saved) {
+
+      currentUser =
+        saved;
+
+      startApp();
+
+    }
+
+  };
+
+</script>
+
+</body>
+</html>
